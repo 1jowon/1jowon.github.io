@@ -1,0 +1,390 @@
+:root {
+  --bg-color: #0b1329;
+  --panel-bg: #162032;
+  --accent-1: #38bdf8;  /* 1호기: Sky Blue */
+  --accent-2: #34d399;  /* 2호기: Emerald Green */
+  --warning: #f59e0b;   /* 혼잡/경고: Amber */
+  --danger: #f43f5e;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border-color: #27354a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* 좌측 사이드바 패널 */
+.control-panel {
+  width: 380px;
+  background-color: var(--panel-bg);
+  border-right: 1px solid var(--border-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.panel-header .school-badge {
+  font-size: 0.75rem;
+  color: var(--accent-1);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.panel-header h1 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  font-weight: 800;
+}
+
+.panel-header p {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.section-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.info-box {
+  background: #0f172a;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.7rem;
+  margin-bottom: 6px;
+}
+
+.status-normal {
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+}
+
+.status-congested {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+  border: 1px solid var(--warning);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-row {
+  display: flex;
+  gap: 8px;
+}
+
+.form-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+input, select, button {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: #0d1527;
+  color: white;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--accent-1);
+}
+
+.btn-group {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+button.primary-btn {
+  background-color: var(--accent-1);
+  color: #0f172a;
+  border: none;
+}
+
+button.primary-btn:hover {
+  background-color: #0284c7;
+  color: white;
+}
+
+button.secondary-btn {
+  background-color: #27354a;
+  border: none;
+  color: white;
+}
+
+button.secondary-btn:hover {
+  background-color: #334155;
+}
+
+button.warning-btn {
+  background-color: var(--warning);
+  color: #0f172a;
+  border: none;
+  width: 100%;
+}
+
+button.warning-btn:hover {
+  background-color: #d97706;
+  color: white;
+}
+
+.metrics-card {
+  background: #0d1527;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.metric-value {
+  color: var(--accent-1);
+  font-weight: bold;
+}
+
+/* 우측 메인 건물 영역 */
+.simulator-container {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, #1e293b 0%, #0b1329 100%);
+  position: relative;
+}
+
+.building {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 820px;
+  height: 92vh;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.95);
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.floor {
+  flex: 1;
+  border-bottom: 1px dashed rgba(51, 65, 85, 0.6);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  position: relative;
+}
+
+.floor.basement {
+  background-color: rgba(244, 63, 94, 0.03);
+}
+
+.floor:last-child {
+  border-bottom: none;
+}
+
+.floor-info {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+}
+
+.floor-label {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--accent-1);
+}
+
+.floor-facility {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+.floor-waiting {
+  flex: 1;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-right: 210px;
+  min-height: 20px;
+}
+
+/* 개별 승객 미니 점(Dot) */
+.p-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--danger);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.p-dot.el1-assigned {
+  border: 2px solid var(--accent-1);
+  background: #0f172a;
+  color: var(--accent-1);
+}
+
+.p-dot.el2-assigned {
+  border: 2px solid var(--accent-2);
+  background: #0f172a;
+  color: var(--accent-2);
+}
+
+.p-dot.in-car {
+  width: 12px;
+  height: 12px;
+  font-size: 0.5rem;
+  border: none;
+  background: white;
+  color: #0f172a;
+}
+
+/* 샤프트 & 엘리베이터 카 */
+.shafts-container {
+  position: absolute;
+  right: 15px;
+  top: 0;
+  bottom: 0;
+  width: 180px;
+  display: flex;
+  gap: 10px;
+}
+
+.shaft {
+  flex: 1;
+  border-left: 2px solid var(--border-color);
+  border-right: 2px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.shaft-title {
+  position: absolute;
+  top: -22px;
+  width: 100%;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.el1-title { color: var(--accent-1); }
+.el2-title { color: var(--accent-2); }
+
+.elevator {
+  position: absolute;
+  left: 3px;
+  width: 74px;
+  height: calc(100% / 14 - 2px);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 4px;
+  font-weight: bold;
+  font-size: 0.65rem;
+  transition-property: bottom;
+  transition-timing-function: linear;
+  color: #0f172a;
+}
+
+.elevator.el-1 {
+  background: var(--accent-1);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.elevator.el-2 {
+  background: var(--accent-2);
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.4);
+}
+
+.el-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 0.62rem;
+}
+
+.el-passenger-box {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  flex: 1;
+  overflow: hidden;
+  padding: 1px;
+}

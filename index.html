@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학교 스마트 승강기 관제 시스템 (Destination Dispatch)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- 좌측 대시보드 및 컨트롤 패널 -->
+    <aside class="control-panel">
+      <header class="panel-header">
+        <div class="school-badge">🏫 캠퍼스 관제 센터</div>
+        <h1>스마트 엘리베이터 시스템</h1>
+        <p>Dynamic Cost Matrix & Zoning Control</p>
+      </header>
+
+      <!-- 시스템 상태 모니터 -->
+      <div class="info-box">
+        <div id="systemStatus" class="status-badge status-normal">상태: 일반 운행</div>
+        <div class="algorithm-info">
+          <strong>⚡ 능동형 재배차 엔진</strong><br>
+          • 엘리베이터 하차 완료(빈 차) 시 <strong>비용 함수($J$) 실시간 재계산</strong><br>
+          • 혼잡 시 <strong>1호기(저층) / 2호기(고층)</strong> 동적 구역 분할
+        </div>
+      </div>
+
+      <!-- 수동 승객 생성 -->
+      <section class="input-group">
+        <div class="section-title">학생 이동 요청 추가</div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="startFloor">출발 층</label>
+            <select id="startFloor"></select>
+          </div>
+          <div class="form-field">
+            <label for="destFloor">목적 층</label>
+            <select id="destFloor"></select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="passengerCount">대기 학생 수 (명)</label>
+          <input type="number" id="passengerCount" value="3" min="1" max="15">
+        </div>
+        <button class="primary-btn" onclick="addPassengerGroup()">승객 대기열 생성</button>
+      </section>
+
+      <!-- 시나리오 생성 -->
+      <section class="input-group">
+        <div class="section-title">학사 일정 테스트 시나리오</div>
+        <button class="warning-btn" onclick="generateCongestion()">🔥 등교 시간 대량 이동 (Zoning 테스트)</button>
+      </section>
+
+      <!-- 시뮬레이션 제어 -->
+      <section class="input-group">
+        <div class="section-title">시스템 조작</div>
+        <div class="btn-group">
+          <button class="primary-btn" onclick="startSimulation()">시작</button>
+          <button class="secondary-btn" onclick="resetSimulator()">리셋</button>
+        </div>
+      </section>
+
+      <!-- 실시간 리포트 -->
+      <section class="metrics-card">
+        <div class="section-title">실시간 운행 리포트</div>
+        <div class="metric-item">
+          <span>총 운행 시간:</span>
+          <span class="metric-value" id="totalTime">0.0초</span>
+        </div>
+        <div class="metric-item">
+          <span>총 이동 거리:</span>
+          <span class="metric-value" id="totalDistance">0층</span>
+        </div>
+        <div class="metric-item">
+          <span>대기/탑승 학생:</span>
+          <span class="metric-value" id="activeCount">0명</span>
+        </div>
+      </section>
+    </aside>
+
+    <!-- 우측 엘리베이터 시뮬레이션 메인 화면 -->
+    <main class="simulator-container">
+      <div class="building" id="building">
+        <div class="shafts-container">
+          <!-- 1호기 -->
+          <div class="shaft">
+            <div class="shaft-title el1-title">1호기 (저층/공통)</div>
+            <div class="elevator el-1" id="el1" style="bottom: 28.57%;">
+              <div class="el-header">
+                <span id="el1Floor">1F</span>
+                <span id="el1State">대기</span>
+              </div>
+              <div class="el-passenger-box" id="el1Box"></div>
+            </div>
+          </div>
+          <!-- 2호기 -->
+          <div class="shaft">
+            <div class="shaft-title el2-title">2호기 (고층/공통)</div>
+            <div class="elevator el-2" id="el2" style="bottom: 28.57%;">
+              <div class="el-header">
+                <span id="el2Floor">1F</span>
+                <span id="el2State">대기</span>
+              </div>
+              <div class="el-passenger-box" id="el2Box"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
