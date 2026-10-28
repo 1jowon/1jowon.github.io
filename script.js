@@ -1,5 +1,5 @@
 // ============================================================================
-// 학교 층별 매핑 데이터 (B4 ~ 10F) - 시설 명칭 제거 버전
+// 학교 층별 매핑 데이터 (B4 ~ 10F)
 // ============================================================================
 const FLOORS = [
   { name: '10F', level: 14, zone: '고층' },
@@ -37,7 +37,16 @@ let elevators = [
 function initUI() {
   const startSelect = document.getElementById('startFloor');
   const destSelect = document.getElementById('destFloor');
+  const building = document.getElementById('building');
+
+  if (!startSelect || !destSelect || !building) {
+    console.error("DOM 요소를 찾을 수 없습니다.");
+    return;
+  }
   
+  startSelect.innerHTML = '';
+  destSelect.innerHTML = '';
+
   FLOORS.forEach(f => {
     startSelect.add(new Option(f.name, f.level));
     destSelect.add(new Option(f.name, f.level));
@@ -46,8 +55,11 @@ function initUI() {
   startSelect.value = 5;  // 1F
   destSelect.value = 14; // 10F
 
-  const building = document.getElementById('building');
   const shafts = building.querySelector('.shafts-container');
+
+  // 기존 생성된 층이 있다면 삭제
+  const oldFloors = building.querySelectorAll('.floor');
+  oldFloors.forEach(el => el.remove());
 
   FLOORS.forEach(f => {
     const floorDiv = document.createElement('div');
@@ -112,6 +124,7 @@ function generateCongestion() {
 
 function renderPassengerDot(p) {
   const container = document.getElementById(`waiting-level-${p.startLevel}`);
+  if (!container) return;
   const dot = document.createElement('div');
   dot.className = `p-dot`;
   dot.id = p.id;
@@ -343,7 +356,8 @@ function resetSimulator() {
   updateMetrics();
 
   FLOORS.forEach(f => {
-    document.getElementById(`waiting-level-${f.level}`).innerHTML = '';
+    const el = document.getElementById(`waiting-level-${f.level}`);
+    if (el) el.innerHTML = '';
   });
 
   elevators.forEach(ev => {
@@ -352,12 +366,19 @@ function resetSimulator() {
     ev.passengers = [];
     ev.isMoving = false;
     ev.isStopping = false;
-    ev.box.innerHTML = '';
-    ev.el.style.transitionDuration = '0.5s';
-    ev.el.style.bottom = `${((5 - 1) / 14) * 100}%`;
-    ev.floorTxt.innerText = '1F';
-    ev.stateTxt.innerText = '대기';
+    if (ev.box) ev.box.innerHTML = '';
+    if (ev.el) {
+      ev.el.style.transitionDuration = '0.5s';
+      ev.el.style.bottom = `${((5 - 1) / 14) * 100}%`;
+    }
+    if (ev.floorTxt) ev.floorTxt.innerText = '1F';
+    if (ev.stateTxt) ev.stateTxt.innerText = '대기';
   });
 }
 
-initUI();
+// DOM이 완전히 로드된 후 초기화 안전 실행
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initUI);
+} else {
+  initUI();
+}
